@@ -4,9 +4,9 @@ import { UserClass, UserFunction, UserChildren } from './user';
 
 const App = () => {
   const [users, setUsers] = useState([
-    { name: 'Ante', years: 34 },
-    { name: 'Marko', years: 37 },
-    { name: 'Tereza', years: 25 },
+    { id: 1, name: 'Ante', years: 34 },
+    { id: 2, name: 'Marko', years: 37 },
+    { id: 3, name: 'Tereza', years: 25 },
   ]);
 
   const [tekst, setTekst] = useState('Uvećaj godine');
@@ -18,17 +18,32 @@ const App = () => {
     setUsers(newUsers);
   };
 
+  const handleChangeName = event => {
+    console.log ("handleChangeName", event.target.value)
+    const newUsers = [...users]
+    newUsers[1].name = event.target.value
+    setUsers(newUsers)
+  }
+
   return (
     <>
       <h1>State</h1>
-      <UserClass name={users[0].name} years={users[0].years} />
-      <UserFunction name={users[1].name} years={users[1].years} />
-      <UserChildren name={users[2].name} years={users[2].years}>
-        {tekst}
-      </UserChildren>
-      <button onClick={uvecajGodine}>Godina više</button>
+      <ul>
+        {users.map((user, index) => (
+          <li key={index}>
+            <input
+              type="text"
+              value={user.name}
+              onChange={(e) => handleChangeName(e.target.value, index)}
+            />
+            <p>Ime: {user.name}, Godine: {user.years}</p>
+          </li>
+        ))}
+      </ul>
     </>
   );
 };
 
 export default App;
+
+
